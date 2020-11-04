@@ -1,0 +1,64 @@
+<div class="loan-application-header">
+  <div>First Name</div>
+  <div>Last Name</div>
+  <div>Birth Date</div>
+  <div>Employer</div>
+  <div>Salary</div>
+  <div>Monthly Liability</div>
+  <div>Requested Amount</div>
+  <div>Requested Term in Days</div>
+  <div>Status</div>
+  <div>Loan Score</div>
+</div>
+
+<div class="loan-application-container" *ngFor="let loanApplication of loanApplications" id ="{{loanApplication.id}}">
+  <div>{{loanApplication.firstName}}</div>
+  <div>{{loanApplication.lastName}}</div>
+  <div>{{loanApplication.birthDate}}</div>
+  <div>{{loanApplication.employer}}</div>
+  <div>{{loanApplication.salary}}</div>
+  <div>{{loanApplication.monthlyLiability}}</div>
+  <div>{{loanApplication.requestedAmount}}</div>
+  <div>{{loanApplication.requestedTermInDays}}</div>
+  <div>
+
+    <select (change)="changeLoanStatus(loanApplication, $event.target.value)" *ngIf="loanApplication.status=='APPROVED'">
+      <option selected value="APPROVED">
+        APPROVED
+      </option>
+      <option value="REJECTED">
+        REJECTED
+      </option>
+      <option value="MANUAL">
+        MANUAL
+      </option>
+    </select>
+
+    <select (change)="changeLoanStatus(loanApplication, $event.target.value)" *ngIf="loanApplication.status=='REJECTED'">
+      <option value="APPROVED">
+        APPROVED
+      </option>
+      <option selected value="REJECTED">
+        REJECTED
+      </option>
+      <option value="MANUAL">
+        MANUAL
+      </option>
+    </select>
+
+    <select (change)="changeLoanStatus(loanApplication, $event.target.value)" *ngIf="loanApplication.status=='MANUAL'">
+      <option value="APPROVED">
+        APPROVED
+      </option>
+      <option value="REJECTED">
+        REJECTED
+      </option>
+      <option selected value="MANUAL">
+        MANUAL
+      </option>
+    </select>
+  </div>
+  <div><input type="text" value="{{loanApplication.loanScore}}"  (change)="changeLoanScore(loanApplication)"/></div>
+  <div><button (click)="updateLoanApplication(loanApplication)">U</button></div>
+  <div><button (click)="deleteLoanApplication(loanApplication)">D</button></div>
+</div>
