@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {LoanApplication} from '../components/loan-application/loan-application.component';
+import {LoanApplication} from '../../components/loan-application/loan-application.component';
 
 const apiUrl = 'http://localhost:18080/loanapplications/';
 
@@ -20,12 +20,18 @@ export class LoanApplicationService {
     return this.httpClient.get<Array<LoanApplication>>(apiUrl);
   }
 
-  updateLoanApplication(id, status, loanScore): Observable<LoanApplication> {
-    const headers = new Headers(
-      {
-        'Content-Type': 'application/json'
-      });
+  createLoanApplication(loanApplication: LoanApplication, fromClient: boolean): Observable<LoanApplication> {
 
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    return this.httpClient.post<LoanApplication>(apiUrl + (fromClient ? 'client' : ''), loanApplication, httpOptions);
+  }
+
+  updateLoanApplication(id, status, loanScore): Observable<LoanApplication> {
     const body = {
       status, loanScore
     };

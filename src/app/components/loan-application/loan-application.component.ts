@@ -1,7 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {LoanApplicationService} from '../../services/loan-application.service';
-
-export interface LoanApplication {
+import {LoanApplicationService} from '../../services/loan-application-service/loan-application.service';
+import {Router} from '@angular/router';
+import {AuthenticationService} from '../../services/authentication-service/authentication.service';
+import { CommonModule } from '@angular/common';
+export class LoanApplication {
   id: number;
   firstName: string;
   lastName: string;
@@ -25,13 +27,45 @@ export class LoanApplicationComponent implements OnInit {
 
   loanApplications: Array<LoanApplication>;
 
-  constructor(private loanApplicationService: LoanApplicationService) {
+  addingNew: boolean;
+
+  newLoanApplication: LoanApplication;
+
+  constructor(private loanApplicationService: LoanApplicationService, private router: Router, private authenticationService: AuthenticationService) {
     this.loanApplicationService = loanApplicationService;
+    this.router = router;
   }
 
   ngOnInit(): void {
     this.loanApplicationService.getLoanApplications().subscribe(loanApplications => {
         this.loanApplications = loanApplications;
+      }
+    );
+    this.addingNew = false;
+    this.newLoanApplication = new LoanApplication();
+    document.getElementById('new-loan-application').style.display = 'none';
+  }
+
+  addNew(): void {
+    if (this.addingNew) {
+      return;
+    }
+    this.addingNew = true;
+    document.getElementById('new-loan-application').style.display = 'grid';
+
+  }
+
+  logout(): void {
+    this.authenticationService.logout();
+    this.router.navigateByUrl('/');
+  }
+
+  createLoanApplication(loanApplication: LoanApplication): void {
+    this.loanApplicationService.createLoanApplication(loanApplication, false).subscribe(r => {
+        if (r.id) {
+          this.ngOnInit();
+        }
+
       }
     );
   }

@@ -1,0 +1,22 @@
+<div class="loan-application-header">
+  <div>First Name</div>
+  <div>Last Name</div>
+  <div>Birth Date</div>
+  <div>Employer</div>
+  <div>Salary</div>
+  <div>Monthly Liability</div>
+  <div>Requested Amount</div>
+  <div>Requested Term in Days</div>
+</div>
+
+<div id="new-loan-application">
+  <input type="text" [(ngModel)]="newLoanApplication.firstName"/>
+  <input type="text" [(ngModel)]="newLoanApplication.lastName"/>
+  <input type="text" [(ngModel)]="newLoanApplication.birthDate"/>
+  <input type="text" [(ngModel)]="newLoanApplication.employer"/>
+  <input type="text" [(ngModel)]="newLoanApplication.salary"/>
+  <input type="text" [(ngModel)]="newLoanApplication.monthlyLiability"/>
+  <input type="text" [(ngModel)]="newLoanApplication.requestedAmount"/>
+  <input type="text" [(ngModel)]="newLoanApplication.requestedTermInDays"/>
+</div>
+<button (click)="createLoanApplication()">SUBMIT</button>

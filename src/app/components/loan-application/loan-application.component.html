@@ -1,3 +1,5 @@
+<button (click)="logout()">LOGOUT</button>
+<button (click)="addNew()">ADD NEW</button>
 <div class="loan-application-header">
   <div>First Name</div>
   <div>Last Name</div>
@@ -10,6 +12,67 @@
   <div>Status</div>
   <div>Loan Score</div>
 </div>
+
+<div id="new-loan-application" style="display:none">
+  <input type="text" [(ngModel)]="newLoanApplication.firstName"/>
+  <input type="text" [(ngModel)]="newLoanApplication.lastName"/>
+  <input type="text" [(ngModel)]="newLoanApplication.birthDate"/>
+  <input type="text" [(ngModel)]="newLoanApplication.employer"/>
+  <input type="text" [(ngModel)]="newLoanApplication.salary"/>
+  <input type="text" [(ngModel)]="newLoanApplication.monthlyLiability"/>
+  <input type="text" [(ngModel)]="newLoanApplication.requestedAmount"/>
+  <input type="text" [(ngModel)]="newLoanApplication.requestedTermInDays"/>
+    <select (change)="changeLoanStatus(newLoanApplication, $event.target.value)" *ngIf="newLoanApplication.status=='APPROVED'">
+      <option selected value="APPROVED">
+        APPROVED
+      </option>
+      <option value="REJECTED">
+        REJECTED
+      </option>
+      <option value="MANUAL">
+        MANUAL
+      </option>
+    </select>
+
+    <select (change)="changeLoanStatus(newLoanApplication, $event.target.value)" *ngIf="newLoanApplication.status=='REJECTED'">
+      <option value="APPROVED">
+        APPROVED
+      </option>
+      <option selected value="REJECTED">
+        REJECTED
+      </option>
+      <option value="MANUAL">
+        MANUAL
+      </option>
+    </select>
+
+    <select (change)="changeLoanStatus(newLoanApplication, $event.target.value)" *ngIf="newLoanApplication.status=='MANUAL'">
+      <option value="APPROVED">
+        APPROVED
+      </option>
+      <option value="REJECTED">
+        REJECTED
+      </option>
+      <option selected value="MANUAL">
+        MANUAL
+      </option>
+    </select>
+
+  <select (change)="changeLoanStatus(newLoanApplication, $event.target.value)" [disabled]="addingNew" *ngIf="!newLoanApplication.status">
+    <option value="APPROVED">
+      APPROVED
+    </option>
+    <option value="REJECTED">
+      REJECTED
+    </option>
+    <option value="MANUAL">
+      MANUAL
+    </option>
+  </select>
+  <div><input type="text" value="{{newLoanApplication.loanScore}}" [disabled]="addingNew" (change)="changeLoanScore(newLoanApplication)"/></div>
+  <div><button (click)="createLoanApplication(newLoanApplication)">S</button></div>
+</div>
+
 
 <div class="loan-application-container" *ngFor="let loanApplication of loanApplications" id ="{{loanApplication.id}}">
   <div>{{loanApplication.firstName}}</div>
